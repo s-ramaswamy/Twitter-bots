@@ -85,7 +85,10 @@ def main():
                         counter=counter +1
                     text = re.sub(re.escape('@theimdbbot '), '', mention.text)
                     s_result = ia.search_movie(text)
-                    rt_result=RT('qn8g46yvmjmnhyd65xm4qc9p').feeling_lucky(text)
+                    try:
+                        rt_result=RT('qn8g46yvmjmnhyd65xm4qc9p').feeling_lucky(text)
+                    except:
+                        pass
                     print text
                     if not s_result or not rt_result:
                         tries = 0;
