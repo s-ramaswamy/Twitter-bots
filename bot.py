@@ -42,57 +42,6 @@ def update_done(id):
     pickle.dump(done, f)
     f.close()
     
-def respond():
-    api = twitter.Api(consumer_key='U0iQLJRZKBpfjWU8YDdGsQ',consumer_secret='GeqbXUIbzmzrbb570orzQow7PCVzTvBaVIAHkSt8kk', access_token_key='631521428-MWj6gZoxpchbRQa4SwzgxqqABOmwYQ7paeHM4xTW', access_token_secret='Utw2PKEYPCbmG4ytyO9E2I39NpkrYNilFhYZLQMDA8') 
-    ia = imdb.IMDb()
-    stream = tweetstream.TrackStream("theimdbbot", "","@theimdbbot")
-    for tweet in stream:
-        text = re.sub(re.escape('@theimdbbot '), '', tweet['text'])
-        imdb_result = ia.search_movie(text)
-        rt_result=RT('qn8g46yvmjmnhyd65xm4qc9p').feeling_lucky(text)
-        if not s_result or not rt_result:
-            try:
-                tries = 0;
-                while tries < 10:
-                    message = FAIL_MESSAGES[random.randint(0, len(FAIL_MESSAGES) - 1)]
-                    message = message.replace('$USERNAME', '@%s' % tweet['user']['screen_name'] )
-                    message = message.replace('$MOVIENAME', '%s' % text)
-                    if message and len(message) < 141: 
-                        post = api.PostUpdate(message,in_reply_to_status_id=tweet['id'])
-                        print message
-                        counter = counter +1
-                        tries = 50
-                    else:
-                    tries = tries +1
-            except:
-                print "Failed to sent tweet to @" + tweet['user']
-        else:
-            the_unt = imdb_result[0]
-            ia.update(the_unt)
-            message = '@'+tweet['user']['screen_name']+' '
-            
-            genres = ', '.join(the_unt['genres'])
-            rating = str(the_unt['rating']).encode('utf8', 'replace')
-            director = str(the_unt['director'][0]).decode('utf8', 'replace')
-            freshness = str(rt_result['ratings']['audience_score']).encode('utf8', 'replace')+'%'
-            runtime = str(rt_result['runtime']).encode('utf8', 'replace')+'mins'
-            year = str(the_unt['year']).encode('utf8', 'replace')
-            cast0 = str(the_unt['cast'][0]).decode('utf8')
-            cast1 = str(the_unt['cast'][1]).decode('utf8')
-            objects = [rating,freshness,runtime,director,genres,year,cast0,cast1]
-            for item in objects:
-                if len(message) <141:
-                    finmessage=message
-                    message=message + item +'; '
-                else:
-                    pass
-            if len(message) < 140:
-                finmessage = message    
-            print finmessage
-            try:
-                post = api.PostUpdate(finmessage,in_reply_to_status_id=tweet['id'])
-            except:
-               print "Failed to sent tweet to @" + tweet['user']['screen_name']
         
 def main():    
     api = twitter.Api(consumer_key='U0iQLJRZKBpfjWU8YDdGsQ',consumer_secret='GeqbXUIbzmzrbb570orzQow7PCVzTvBaVIAHkSt8kk', access_token_key='631521428-MWj6gZoxpchbRQa4SwzgxqqABOmwYQ7paeHM4xTW', access_token_secret='Utw2PKEYPCbmG4ytyO9E2I39NpkrYNilFhYZLQMDA8') 
