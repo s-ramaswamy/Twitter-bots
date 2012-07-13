@@ -83,7 +83,7 @@ def main():
                         api.CreateFriendship(mention.user.screen_name)
                         print "Now following " + mention.user.screen_name
                         counter=counter +1
-                    text = re.sub(re.escape('@theimdbbot '), '', mention.text)
+                    text = re.sub(re.escape('@BotImdb '), '', mention.text)
                     s_result = ia.search_movie(text)
                     try:
                         rt_result=RT('qn8g46yvmjmnhyd65xm4qc9p').feeling_lucky(text)
