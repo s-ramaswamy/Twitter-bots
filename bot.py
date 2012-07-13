@@ -20,8 +20,8 @@ def check_if_done(id):
     '''
     Checks if a tweet has already been responded to
     '''
-    if os.path.exists('/home/meetaw/done.pkl'):
-        f = open('/home/meetaw/done.pkl', 'r')
+    if os.path.exists('/home/shaastra/.done.pkl'):
+        f = open('/home/shaastra/.done.pkl', 'r')
         done = pickle.load(f)
         f.close()
         if id in done:
@@ -31,14 +31,14 @@ def update_done(id):
     '''
     Updates a list of tweets that've been replied to
     '''
-    if os.path.exists('/home/meetaw/done.pkl'):
-        f = open('/home/meetaw/done.pkl', 'r')
+    if os.path.exists('/home/shaastra/.done.pkl'):
+        f = open('/home/shaastra/.done.pkl', 'r')
         done = pickle.load(f)
         f.close()
     else:
         done = []
     done.append(id)
-    f = open('/home/meetaw/done.pkl', 'w')
+    f = open('/home/shaastra/.done.pkl', 'w')
     pickle.dump(done, f)
     f.close()
     
